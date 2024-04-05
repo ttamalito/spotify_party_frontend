@@ -29,6 +29,16 @@ function submitForm(event) {
         body: urlData,
     }).then(res => {
         console.log(res); // log the response
+        document.cookie = "username=Pepinon";
+        for (let [i, j] of res.headers.entries()) {
+            console.log(`${i}: ${j}`);
+        }
+        let token = res.headers.get("login");
+        console.log(token);
+        res.text().then(txt => {
+            console.log(txt);
+            document.cookie = txt;
+        });
     })
 }
 
