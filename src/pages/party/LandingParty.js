@@ -16,7 +16,7 @@ export default function LandingParty() {
  * Sends the corresponding request, to start a party to the backend server
  */
 function requestToStartParty() {
-    fetch(`http://localhost:8080/puto2`, {
+    fetch(`http://localhost:8080/createParty`, {
         method: 'GET',
         credentials: "include"
 
