@@ -64,8 +64,15 @@ function submitForm(event) {
         body: urlData,
     }).then(res => {
         console.log(res); // log the response
-        for (let [i, j] of res.headers.entries()) {
-            console.log(`${i}: ${j}`);
-        }
+        // extract the json
+        res.json().then(data => {
+            console.log(data);
+            if (!data.result) {
+                // not successful
+                if (data.redirected) {
+                    window.location.href = data.url;
+                } // positive result
+            }// negative result
+        }) // then of json
     }).catch(err => console.error(err));
 } // submitForm
