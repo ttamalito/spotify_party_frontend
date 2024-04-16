@@ -1,14 +1,24 @@
 import {useEffect} from "react";
+import requestAccessToken
+    from "../../utils/requestAccessToken";
+import createUrlParams
+    from "../../utils/createURLParams";
 
 export default function LandingParty() {
     useEffect(() => {
-        requestToStartParty();
+        //requestToStartParty();
+        //requestAccessToken();
     }, []);
 
     const header = <h1>Landing Page for party</h1>
-
+    const form = <form onSubmit={(event) => submitForm(event)}>
+        <input type="text" name={"id"} placeholder={"Client ID"} />
+        <input type={"text"} name={"secret"} placeholder={"Client Secret"}/>
+        <button type={"submit"}>Request Token</button>
+    </form>
     return (<>
         {header}
+        {form}
     </>)
 }
 
@@ -31,10 +41,31 @@ function requestToStartParty() {
         console.log(res);
         res.json().then(data => {
             // it is an object
-            if (data.link) {
+            if (data.redirected) {
                 // there is a link to redirect
                 window.location.href = data.link;
             }
         });
     }).catch(err =>  console.error(err));
 } // end of requestToStartParty
+
+/**
+ * Sends a P
+ * @param {Event} event
+ */
+function submitForm(event) {
+    event.preventDefault();
+    const urlData = createUrlParams(event.nativeEvent.srcElement);
+
+    // send it
+    fetch(`http://localhost:8080/createParty`, {
+        method: "POST",
+        credentials: 'include',
+        body: urlData,
+    }).then(res => {
+        console.log(res); // log the response
+        for (let [i, j] of res.headers.entries()) {
+            console.log(`${i}: ${j}`);
+        }
+    }).catch(err => console.error(err));
+} // submitForm
