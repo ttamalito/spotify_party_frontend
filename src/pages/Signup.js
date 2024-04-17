@@ -26,12 +26,17 @@ function submitForm(event) {
     fetch(`http://localhost:8080/signup`, {
         method: "POST",
         redirect: 'follow',
+        credentials: 'include',
         body: urlData,
     }).then(res => {
         console.log(res); // log the response
         // see the response body
         res.json().then(data => {
             console.log(data)
+            if (data.result && data.redirected) {
+                window.location.href = data.url;
+            }
+
         })
     }).catch(err => {console.error(err)})
 } // end of submitForm

@@ -31,7 +31,6 @@ function submitForm(event) {
         body: urlData,
     }).then(res => {
         console.log(res); // log the response
-        document.cookie = "username=Pepinon";
         for (let [i, j] of res.headers.entries()) {
             console.log(`${i}: ${j}`);
         }
@@ -39,7 +38,9 @@ function submitForm(event) {
         console.log(token);
         res.text().then(txt => {
             console.log(txt);
-            document.cookie = txt;
+            let date = new Date();
+            date.setTime(date.getTime()+30000); // 30 seconds
+            document.cookie = `${txt}; expires=${date.toUTCString()}`;
         });
     })
 }
