@@ -3,13 +3,14 @@ import createUrlParams
 
 export default function Signup() {
     const form = <form onSubmit={(event) => submitForm(event)}>
-        <input type="text" name={"name"}/>
-        <input type="text" name={"email"} />
-        <input type={"text"} name={"password"}/>
+        <input type="text" name={"name"} placeholder={"name"}/>
+        <input type="text" name={"email"} placeholder={"email"} />
+        <input type={"text"} name={"password"} placeholder={"password"}/>
         <button type={"submit"}>Sign up</button>
     </form>
 
     return (<>
+        <h1>Sign up</h1>
         {form}
     </>);
 } // end of Login

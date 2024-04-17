@@ -39,7 +39,7 @@ function submitForm(event) {
         res.text().then(txt => {
             console.log(txt);
             let date = new Date();
-            date.setTime(date.getTime()+30000); // 30 seconds
+            date.setTime(date.getTime()+3600000); // 1 hour
             document.cookie = `${txt}; expires=${date.toUTCString()}`;
         });
     })

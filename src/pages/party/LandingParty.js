@@ -3,6 +3,7 @@ import requestAccessToken
     from "../../utils/requestAccessToken";
 import createUrlParams
     from "../../utils/createURLParams";
+import getUtcDate from "../../utils/utcDate";
 
 export default function LandingParty() {
     useEffect(() => {
@@ -69,10 +70,20 @@ function submitForm(event) {
             console.log(data);
             if (!data.result) {
                 // not successful
-                if (data.redirected) {
+                if (data.redirected !== "") {
                     window.location.href = data.url;
-                } // positive result
+                }
+                // check the status
+                if (res.status === 500) {
+                    alert("Internal server Error, check the rust code");
+                }
             }// negative result
+            else {
+                // it was a positive result
+                // add the access token as a cookie
+                let date = getUtcDate(3600000); // 1 hour
+                document.cookie = `access=${data.access_token}; expires=${date}`;
+            }
         }) // then of json
     }).catch(err => console.error(err));
 } // submitForm
