@@ -26,7 +26,7 @@ function redirectToLogin(event) {
     let responseType = `response_type=code`;
     let client_id = `client_id=${formData.get("id")}`;
     let scopes = [
-        //"user-read-playback-state",
+        "user-read-playback-state",
         "user-modify-playback-state",
         //"user-read-currently-playing",
        //"app-remote-control",
