@@ -7,6 +7,7 @@ import ManageParty
     from "../pages/party/ManageParty";
 import StartParty
     from "../pages/party/StartParty";
+import JoinParty from "../pages/party/JoinParty";
 
 
 
@@ -21,5 +22,6 @@ export default function PartyRoutes() {
         <Route exact path='/party' element={<LandingParty />}/>
         <Route exact path={'/party/:id'} element={<ManageParty/>} />
         <Route exact path={'/startParty'} element={<StartParty />} />
+        <Route exact path={'/joinParty/:id'} element={<JoinParty /> } />
     </Routes>);
 }

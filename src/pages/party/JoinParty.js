@@ -7,6 +7,13 @@ export default function JoinParty() {
 
     const header = <h1>Would you like to join party: {partyId}</h1>
     const joinButton = <button onClick={() => {joinParty(partyId)}}>Join!</button>
+
+    return (
+        <>
+            {header}
+            {joinButton}
+        </>
+    )
 } // end of componenet
 
 
