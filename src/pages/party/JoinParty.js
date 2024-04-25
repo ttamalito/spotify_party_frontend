@@ -1,4 +1,5 @@
 import {useParams} from "react-router-dom";
+import {useState} from "react";
 
 export default function JoinParty() {
 
@@ -7,12 +8,14 @@ export default function JoinParty() {
     const partyId = params.id;
 
     const header = <h1>Would you like to join party: {partyId}</h1>
-    const joinButton = <button onClick={() => {joinParty(partyId)}}>Join!</button>
+    const joinButton = <button onClick={() => {joinParty(partyId, setShowRequested)}}>Join!</button>
     const requested = <h2>Access to the party has been requested, wait for the owner to let you in</h2>
+    let [showRequested, setShowRequested] = useState(false);
     return (
         <>
-            {header}
-            {joinButton}
+            {!showRequested && header}
+            {!showRequested && joinButton}
+            {showRequested && requested}
         </>
     )
 } // end of componenet
@@ -21,8 +24,9 @@ export default function JoinParty() {
 /**
  * Sends the get request to join the party
  * @param partyId
+ * @param {Function} setShowRequested
  */
-function joinParty(partyId) {
+function joinParty(partyId, setShowRequested) {
 
     fetch(`http://localhost:8080/joinParty/${partyId}`, {
         method: 'GET',
@@ -31,7 +35,8 @@ function joinParty(partyId) {
         console.log(`Response Code: ${res.status}`);
         if (res.status === 200) {
             // everything went alright, user was added to the queue to join the party
-            window.location.href = '/'
+            //window.location.href = '/'
+            setShowRequested(true);
         }
         // get the json response
         res.json().then(data => {
