@@ -1,36 +1,45 @@
 import {useParams} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
 
 export default function ManageParty() {
+    useEffect(() => {
+        isOwner(setOwnerRef, partyId);
+    }, [isOwnerRef]);
+    const [isOwnerRef, setOwnerRef] = useState(false);
     // get the id
     const params = useParams();
     const partyId = params.id;
 
-    // pause playback
-    let pauseButton = <button onClick={()=> {pausePlayback(partyId)}}> Pause Playback</button>
+    const notOwner = <h1>You are forbidden to go to this page</h1>
+    const seeRequestToJoinPendingButton = <button
+        >See the people that requested to join the party</button>
+
+    const everything = <div>
+        {seeRequestToJoinPendingButton}
+    </div>
 
     return (
         <>
-            <h1>Manage your party</h1>
-            {pauseButton}
+            {!isOwnerRef && notOwner} 
+            {isOwnerRef && everything}
         </>
     )
-} // end of Component
+}
 
-function pausePlayback(partyId) {
-    const urlBody = new URLSearchParams();
-    urlBody.append('party_id', partyId);
-    fetch(`http://localhost:8080/pausePlayback`, {
-        method: 'POST',
-        credentials: 'include',
-        body: urlBody
+/**
+ *
+ * @param {Function} setOwnerRef
+ * @param partyId
+ */
+function isOwner(setOwnerRef, partyId) {
+    // send the request
+    fetch(`http://localhost:8080/isOwner/${partyId}`, {
+        method: 'GET',
+        credentials: 'include'
     }).then(res => {
-        console.log(res);
-        if (res.status === 204)
-            alert('Playback Paused')
-        if (res.status === 400 || res.status === 403 || res.status === 401 || res.status === 409) {
-            // a bad request
-            alert('A bad reqeust');
-            console.log("Verga!")
+        console.log(res.status);
+        if (res.status === 200) {
+            setOwnerRef(true);
         }
-    }).catch(err => console.error(err)); // end of fetch
+    })
 }
