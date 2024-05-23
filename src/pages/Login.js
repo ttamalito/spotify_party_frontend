@@ -41,6 +41,8 @@ function submitForm(event) {
             let date = new Date();
             date.setTime(date.getTime()+3600000); // 1 hour
             document.cookie = `${txt}; expires=${date.toUTCString()}`;
+            // redirect
+            window.location.href = '/';
         });
     })
 }

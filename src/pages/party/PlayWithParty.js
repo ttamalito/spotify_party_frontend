@@ -15,7 +15,7 @@ export default function PlayWithParty() {
 
     let previousButton =  <button  onClick={playPrevious}> Play Previous</button>
 
-    let modifyVolumeButton = <button  onClick={modifyVolumeg}> Modify Volume</button>
+    let modifyVolumeButton = <button  onClick={modifyVolume}> Modify Volume</button>
     return (
         <>
             <h1>Manage your party</h1>
