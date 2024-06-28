@@ -26,21 +26,21 @@ function redirectToLogin(event) {
     let responseType = `response_type=code`;
     let client_id = `client_id=${formData.get("id")}`;
     let scopes = [
-        //"user-read-playback-state",
-        "user-modify-playback-state"
-        //"user-read-currently-playing",
-       //"app-remote-control",
+        "user-read-playback-state",
+        "user-modify-playback-state",
+        "user-read-currently-playing",
+       "app-remote-control",
        //"streaming",
       //"playlist-read-private",
-       //"playlist-modify-private",
+       "playlist-modify-private",
         //"user-follow-modify",
        //"user-follow-read",
-        //"user-read-playback-position",
+        "user-read-playback-position",
         //"user-top-read",
-        //"user-read-recently-played",
+        "user-read-recently-played",
         //"user-library-modify",
         //"user-library-read",
-        //"user-read-email",
+        "user-read-email",
         //"user-read-private",
         //"user-soa-link",
         //"soa-create-partner",
@@ -55,7 +55,7 @@ function redirectToLogin(event) {
             continue;
         }
         // else
-        scope += "&" + 'scope=' + `${scopes[i]}`;
+        scope += "+"  + `${scopes[i]}`;
         console.log(`At the ${i}th iteration: ${scope}`);
     } // end of for loops
     console.log(scope);
