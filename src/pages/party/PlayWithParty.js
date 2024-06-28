@@ -16,18 +16,33 @@ export default function PlayWithParty() {
     let previousButton =  <button  onClick={playPrevious}> Play Previous</button>
 
     let modifyVolumeButton = <button  onClick={modifyVolume}> Modify Volume</button>
+
+
+    let turnOnShuffleButton = <button onClick={turnOnShuffle}> Turn on Shuffle</button>
     return (
         <>
             <h1>Manage your party</h1>
+            <br/>
             {pauseButton}
+            <br/>
             {resumeButton}
+            <br/>
             {playNextButton}
+            <br/>
             {previousButton}
+            <br/>
             {modifyVolumeButton}
+            <br/>
+            {turnOnShuffleButton}
         </>
     )
 } // end of Component
-
+/**
+ * Pause playback of the party with the given party ID.
+ *
+ * @param {type} partyId - The ID of the party to pause playback for
+ * @return {type} Not specified in the function
+ */
 function pausePlayback(partyId) {
     const urlBody = new URLSearchParams();
     urlBody.append('party_id', partyId);
@@ -47,7 +62,11 @@ function pausePlayback(partyId) {
     }).catch(err => console.error(err)); // end of fetch
 }
 
-
+/**
+ * Resumes playback of the audio.
+ *
+ * @return {Promise<void>} A promise that resolves when the playback is resumed.
+ */
 function resumePlayback() {
 
     fetch(`http://localhost:8080/resumePlayback`, {
@@ -64,7 +83,11 @@ function resumePlayback() {
         }
     }).catch(err => console.error(err)); // end of fetch
 }
-
+/**
+ * Sends a request to play the next song in the playlist.
+ *
+ * @return {Promise<void>} A promise that resolves when the next song is played.
+ */
 function playNext() {
     fetch(`http://localhost:8080/playNext`, {
         method: 'GET',
@@ -80,7 +103,11 @@ function playNext() {
         }
     }).catch(err => console.error(err)); // end of fetch
 }
-
+/**
+ * Sends a request to play the previous song in the playlist.
+ *
+ * @return {Promise<void>} A promise that resolves when the previous song is played.
+ */
 function playPrevious() {
     fetch(`http://localhost:8080/playPrevious`, {
         method: 'GET',
@@ -96,7 +123,11 @@ function playPrevious() {
         }
     }).catch(err => console.error(err)); // end of fetch
 }
-
+/**
+ * Sends a GET request to modify the volume and displays an alert with the result.
+ *
+ * @return {Promise<void>} A promise that resolves when the volume is modified or an error occurs.
+ */
 function modifyVolume() {
     fetch(`http://localhost:8080/modifyVolume`, {
         method: 'GET',
@@ -112,14 +143,17 @@ function modifyVolume() {
         }
     }).catch(err => console.error(err)); // end of fetch
 }
-/*
-fetch(`https://api.spotify.com/v1/me/player/pause`, {
-    method: 'PUT',
-    headers: {
-        'Authorization': 'Bearer BQDRdaFo_ZUpf4HCGcr9buBs6JjoWmb3SbHzBkH4k9wTFUNnXd4BnQJciSI7lw7_bjkqYC35HUqNbGXe70s8ejQrFtUs_Un6GhrlKyToqyPS5ydikIAhljXqaKfeMb_86e7H5q447x93xcJdFX0apE2HoMys9ynBBUOLlBhoZltj9BTO27wWQd9QwFQ'}
 
-}).then(res => {
-    console.log(res);
-    res.text().then(data => {console.log(data)})
-})
- */
+
+function turnOnShuffle() {
+    fetch(`http://localhost:8080/shuffleOn`, {
+        method: 'PUT',
+        credentials: 'include'
+    }).then(res => {
+        console.log(res);
+        if (res.status === 204)
+            alert('Shuffle Mode On')
+        if (res.status === 400 || res.status === 403 || res.status === 401 || res.status === 409)
+            alert(`Status of the request: ${res.status}`)
+    }).catch(err => console.error)
+}
