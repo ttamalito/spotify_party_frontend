@@ -1,11 +1,22 @@
 import {useEffect} from "react";
 import { useLocation } from 'react-router-dom';
-import requestAccessToken
+import
+    requestAccessToken
     from "../../utils/requestAccessToken";
 import createUrlParams
     from "../../utils/createURLParams";
 import getUtcDate from "../../utils/utcDate";
 
+/**
+ * Renders the LandingParty component, which displays a form for requesting a token
+ * for a party with a specific code. The component uses the useEffect hook to fetch the
+ * query parameters from the URL and logs the code to the console. The component also
+ * renders a header and a form with input fields for the client ID and client secret,
+ * as well as a submit button. When the form is submitted, the submitForm function is
+ * called with the event and the code as parameters.
+ *
+ * @return {JSX.Element} The LandingParty component.
+ */
 export default function LandingParty() {
     useEffect(() => {
         //requestToStartParty();
