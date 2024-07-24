@@ -19,6 +19,10 @@ export default function PlayWithParty() {
 
 
     let turnOnShuffleButton = <button onClick={turnOnShuffle}> Turn on Shuffle</button>
+
+    let turnOffShuffleButton = <button onClick={turnOffShuffle}> Turn of Shuffle</button>
+
+    let getPlayBackStateButton = <button onClick={getPlaybackState}>Get Playback State</button>
     return (
         <>
             <h1>Manage your party</h1>
@@ -34,6 +38,10 @@ export default function PlayWithParty() {
             {modifyVolumeButton}
             <br/>
             {turnOnShuffleButton}
+            <br/>
+            {turnOffShuffleButton}
+            <br/>
+            {getPlayBackStateButton}
         </>
     )
 } // end of Component
@@ -156,4 +164,40 @@ function turnOnShuffle() {
         if (res.status === 400 || res.status === 403 || res.status === 401 || res.status === 409)
             alert(`Status of the request: ${res.status}`)
     }).catch(err => console.error)
+}
+
+function turnOffShuffle() {
+    fetch(`http://localhost:8080/shuffleOff`, {
+        method: 'PUT',
+        credentials: 'include'
+    }).then(res => {
+        console.log(res);
+        if (res.status === 204)
+            alert('Shuffle Mode Off')
+        if (res.status === 400 || res.status === 403 || res.status === 401 || res.status === 409)
+            alert(`Status of the request: ${res.status}`)
+    }).catch(err => console.error)
+}
+
+/**
+ * Retrieves the playback state from the server.
+ *
+ */
+function getPlaybackState() {
+    fetch(`http://localhost:8080/getPlaybackState`, {
+        method: 'GET',
+        credentials: 'include'
+    }).then(res => {
+        console.log(res);
+        if (res.status === 200) {
+            res.json().then(data => {
+                console.log(data);
+                alert('Data available in the developer tools console');
+            })
+        } else if (res.status === 400 || res.status === 403 || res.status === 401 || res.status === 409) {
+            alert(`Status of the request: ${res.status}`)
+        } else if (res.status === 204) {
+            alert('User is listening to a podcast, not supported at the moment');
+        }
+    }).catch(err => console.error);
 }
